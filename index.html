@@ -259,7 +259,7 @@
       pointer-events: none;
       background: transparent;
       border-radius: 6px;
-      padding: 4px;
+      padding: 0;
       box-sizing: border-box;
     }
 
@@ -721,7 +721,7 @@
           }
           if (logoDataUrl) {
             var logoSizePx = Math.round(300 * (parseFloat(logoSize.value) || 0.4));
-            var margin = 8;
+            var margin = 0;
             var overlay = document.createElement("div");
             overlay.className = "logo-overlay";
             var imgEl = document.createElement("img");
@@ -778,7 +778,7 @@
               backgroundOptions: { color: bgClr },
               image: imageSource || undefined,
               imageOptions: imageSource ? {
-                margin: 10,
+                margin: 0,
                 imageSize: parseFloat(logoSize.value) || 0.4,
                 crossOrigin: undefined,
                 hideBackgroundDots: true
@@ -933,7 +933,7 @@
             var nw = logoImg.naturalWidth, nh = logoImg.naturalHeight;
             var scale = maxDim / Math.max(nw, nh);
             var dw = Math.round(nw * scale), dh = Math.round(nh * scale);
-            var margin = 8;
+            var margin = 0;
             var clearW = dw + margin * 2, clearH = dh + margin * 2;
             var clearX = (300 - clearW) / 2, clearY = (300 - clearH) / 2;
             var ox = (300 - dw) / 2, oy = (300 - dh) / 2;
