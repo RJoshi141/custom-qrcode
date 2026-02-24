@@ -142,6 +142,28 @@
       min-width: 0;
     }
 
+    .colors-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .colors-row .color-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .colors-row .color-cell label {
+      font-size: 0.75rem;
+      margin-bottom: 0;
+    }
+
+    .colors-row .color-row {
+      margin-bottom: 0;
+    }
+
     .logo-options {
       display: flex;
       flex-direction: column;
@@ -306,6 +328,17 @@
       min-width: 2.5rem;
     }
 
+    .logo-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo-row .form-group {
+      margin-bottom: 0;
+    }
+
     .logo-size-controls .btn {
       width: 2rem;
       height: 2rem;
@@ -314,20 +347,126 @@
       line-height: 1;
     }
 
+    .corners-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5rem;
+    }
+
     .corner-group {
-      margin-bottom: 1rem;
-      padding: 0.75rem;
+      padding: 0.5rem;
       background: var(--bg);
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
     }
 
+    .corners-row .corner-group {
+      margin-bottom: 0;
+    }
+
     .corner-label {
-      font-size: 0.8125rem;
+      font-size: 0.6875rem;
       font-weight: 600;
       color: var(--text-muted);
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .corners-row .color-row {
+      gap: 0.25rem;
+    }
+
+    .corners-row .color-row input[type="color"] {
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 2px;
+      cursor: pointer;
+    }
+
+    .corners-row .color-row input[type="text"] {
+      font-size: 0.6875rem;
+      padding: 0.25rem 0.375rem;
+    }
+
+    .collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .collapsible summary {
+      padding: 0.75rem 1rem;
+      background: var(--surface-hover);
+      cursor: pointer;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .collapsible summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .collapsible summary::after {
+      content: "+";
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+
+    .collapsible[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .collapsible-content {
+      padding: 1rem;
+      background: var(--surface);
+    }
+
+    .segment-control {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1rem;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+      border: 1px solid var(--border);
+    }
+
+    .segment-control button {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+
+    .segment-control button:hover {
+      color: var(--text);
+    }
+
+    .segment-control button.active {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+
+    .corner-panel {
+      display: none;
+    }
+
+    .corner-panel.active {
+      display: block;
     }
   </style>
 </head>
@@ -347,130 +486,102 @@
           <button type="button" class="btn btn-primary" id="generate-btn" style="margin-top: 0.5rem;">Generate QR Code</button>
         </div>
 
-        <h2 class="panel-title">Dots</h2>
-        <div class="form-group">
-          <label>Color</label>
-          <div class="color-row">
-            <input type="color" id="dot-color" value="#000000">
-            <input type="text" id="dot-color-hex" value="#000000" placeholder="#000000">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="dot-pattern">Pattern</label>
-          <select id="dot-pattern">
-            <option value="square">Square</option>
-            <option value="rounded" selected>Rounded</option>
-            <option value="extra-rounded">Extra Rounded</option>
-            <option value="dots">Dots</option>
-            <option value="classy">Classy</option>
-            <option value="classy-rounded">Classy Rounded</option>
-          </select>
-        </div>
-
-        <h2 class="panel-title">Corner Markers (Eyes)</h2>
-        <div class="form-group">
-          <label for="corner-square-type">Outer marker style</label>
-          <select id="corner-square-type">
-            <option value="square" selected>Square</option>
-            <option value="dot">Dot</option>
-            <option value="extra-rounded">Extra Rounded</option>
-            <option value="rounded">Rounded</option>
-            <option value="dots">Dots</option>
-            <option value="classy">Classy</option>
-            <option value="classy-rounded">Classy Rounded</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="corner-dot-type">Inner eye style</label>
-          <select id="corner-dot-type">
-            <option value="square">Square</option>
-            <option value="dot" selected>Dot</option>
-            <option value="rounded">Rounded</option>
-            <option value="extra-rounded">Extra Rounded</option>
-            <option value="dots">Dots</option>
-            <option value="classy">Classy</option>
-            <option value="classy-rounded">Classy Rounded</option>
-          </select>
-        </div>
-        <div class="corner-group">
-          <label class="corner-label">Corner 1 (top-left)</label>
-          <div class="form-group">
-            <label>Outer</label>
+        <h2 class="panel-title">Colors</h2>
+        <div class="colors-row">
+          <div class="color-cell">
+            <label>Background</label>
             <div class="color-row">
-              <input type="color" id="c1-outer-color" value="#000000">
-              <input type="text" id="c1-outer-hex" value="#000000">
+              <input type="color" id="bg-color" value="#ffffff">
+              <input type="text" id="bg-color-hex" value="#ffffff" placeholder="#ffffff">
             </div>
           </div>
-          <div class="form-group">
-            <label>Inner eye</label>
+          <div class="color-cell">
+            <label>Dots</label>
             <div class="color-row">
-              <input type="color" id="c1-inner-color" value="#000000">
-              <input type="text" id="c1-inner-hex" value="#000000">
-            </div>
-          </div>
-        </div>
-        <div class="corner-group">
-          <label class="corner-label">Corner 2 (top-right)</label>
-          <div class="form-group">
-            <label>Outer</label>
-            <div class="color-row">
-              <input type="color" id="c2-outer-color" value="#000000">
-              <input type="text" id="c2-outer-hex" value="#000000">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Inner eye</label>
-            <div class="color-row">
-              <input type="color" id="c2-inner-color" value="#000000">
-              <input type="text" id="c2-inner-hex" value="#000000">
-            </div>
-          </div>
-        </div>
-        <div class="corner-group">
-          <label class="corner-label">Corner 3 (bottom-left)</label>
-          <div class="form-group">
-            <label>Outer</label>
-            <div class="color-row">
-              <input type="color" id="c3-outer-color" value="#000000">
-              <input type="text" id="c3-outer-hex" value="#000000">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Inner eye</label>
-            <div class="color-row">
-              <input type="color" id="c3-inner-color" value="#000000">
-              <input type="text" id="c3-inner-hex" value="#000000">
+              <input type="color" id="dot-color" value="#000000">
+              <input type="text" id="dot-color-hex" value="#000000" placeholder="#000000">
             </div>
           </div>
         </div>
 
-        <h2 class="panel-title">Background</h2>
-        <div class="form-group">
-          <label>Color</label>
-          <div class="color-row">
-            <input type="color" id="bg-color" value="#ffffff">
-            <input type="text" id="bg-color-hex" value="#ffffff" placeholder="#ffffff">
+        <details class="collapsible">
+          <summary>Corner Markers & Inner Eyes</summary>
+          <div class="collapsible-content">
+            <div class="segment-control">
+              <button type="button" class="segment-btn active" data-panel="outer">Outer markers</button>
+              <button type="button" class="segment-btn" data-panel="inner">Inner eyes</button>
+            </div>
+
+            <div id="corner-outer-panel" class="corner-panel active">
+              <div class="corners-row">
+                <div class="corner-group">
+                  <label class="corner-label">1 (TL)</label>
+                  <div class="color-row">
+                    <input type="color" id="c1-outer-color" value="#000000">
+                    <input type="text" id="c1-outer-hex" value="#000000">
+                  </div>
+                </div>
+                <div class="corner-group">
+                  <label class="corner-label">2 (TR)</label>
+                  <div class="color-row">
+                    <input type="color" id="c2-outer-color" value="#000000">
+                    <input type="text" id="c2-outer-hex" value="#000000">
+                  </div>
+                </div>
+                <div class="corner-group">
+                  <label class="corner-label">3 (BL)</label>
+                  <div class="color-row">
+                    <input type="color" id="c3-outer-color" value="#000000">
+                    <input type="text" id="c3-outer-hex" value="#000000">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="corner-inner-panel" class="corner-panel">
+              <div class="corners-row">
+                <div class="corner-group">
+                  <label class="corner-label">1 (TL)</label>
+                  <div class="color-row">
+                    <input type="color" id="c1-inner-color" value="#000000">
+                    <input type="text" id="c1-inner-hex" value="#000000">
+                  </div>
+                </div>
+                <div class="corner-group">
+                  <label class="corner-label">2 (TR)</label>
+                  <div class="color-row">
+                    <input type="color" id="c2-inner-color" value="#000000">
+                    <input type="text" id="c2-inner-hex" value="#000000">
+                  </div>
+                </div>
+                <div class="corner-group">
+                  <label class="corner-label">3 (BL)</label>
+                  <div class="color-row">
+                    <input type="color" id="c3-inner-color" value="#000000">
+                    <input type="text" id="c3-inner-hex" value="#000000">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </details>
 
         <h2 class="panel-title">Logo</h2>
-        <div class="form-group">
-          <label for="logo-url">Logo URL (optional)</label>
-          <input type="url" id="logo-url" placeholder="https://example.com/logo.png">
-        </div>
-        <div class="form-group">
-          <label for="logo-file">Or upload logo</label>
-          <div class="file-input-wrap">
-            <input type="file" id="logo-file" accept="image/*">
+        <div class="logo-row">
+          <div class="form-group">
+            <label for="logo-file">Upload logo</label>
+            <div class="file-input-wrap">
+              <input type="file" id="logo-file" accept="image/*">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label>Logo size</label>
-          <div class="logo-size-controls">
-            <button type="button" class="btn btn-ghost" id="logo-size-down" aria-label="Decrease logo size">−</button>
-            <input type="range" id="logo-size" min="0.15" max="0.55" step="0.05" value="0.4">
-            <button type="button" class="btn btn-ghost" id="logo-size-up" aria-label="Increase logo size">+</button>
-            <span id="logo-size-value" class="logo-size-value">40%</span>
+          <div class="form-group">
+            <label>Logo size</label>
+            <div class="logo-size-controls">
+              <button type="button" class="btn btn-ghost" id="logo-size-down" aria-label="Decrease logo size">−</button>
+              <input type="range" id="logo-size" min="0.15" max="0.55" step="0.05" value="0.4">
+              <button type="button" class="btn btn-ghost" id="logo-size-up" aria-label="Increase logo size">+</button>
+              <span id="logo-size-value" class="logo-size-value">40%</span>
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -504,9 +615,6 @@
       var urlInput = document.getElementById("url-input");
       var dotColor = document.getElementById("dot-color");
       var dotColorHex = document.getElementById("dot-color-hex");
-      var dotPattern = document.getElementById("dot-pattern");
-      var cornerSquareType = document.getElementById("corner-square-type");
-      var cornerDotType = document.getElementById("corner-dot-type");
       var cornerInputs = [
         { outerColor: document.getElementById("c1-outer-color"), outerHex: document.getElementById("c1-outer-hex"), innerColor: document.getElementById("c1-inner-color"), innerHex: document.getElementById("c1-inner-hex") },
         { outerColor: document.getElementById("c2-outer-color"), outerHex: document.getElementById("c2-outer-hex"), innerColor: document.getElementById("c2-inner-color"), innerHex: document.getElementById("c2-inner-hex") },
@@ -514,7 +622,6 @@
       ];
       var bgColor = document.getElementById("bg-color");
       var bgColorHex = document.getElementById("bg-color-hex");
-      var logoUrl = document.getElementById("logo-url");
       var logoFile = document.getElementById("logo-file");
       var logoSize = document.getElementById("logo-size");
       var logoSizeValue = document.getElementById("logo-size-value");
@@ -653,27 +760,27 @@
 
         if (useStyled && QRCodeStyling) {
           try {
-            var imageSource = logoDataUrl || (logoUrl.value.trim() || null);
+            var imageSource = logoDataUrl || null;
             var opts = {
               width: 300,
               height: 300,
               type: "canvas",
               data: text,
-              dotsOptions: { color: dotClr, type: dotPattern.value },
+              dotsOptions: { color: dotClr, type: "rounded" },
               cornersSquareOptions: {
                 color: cornerInputs[0].outerHex.value || "#000000",
-                type: cornerSquareType.value
+                type: "square"
               },
               cornersDotOptions: {
                 color: cornerInputs[0].innerHex.value || "#000000",
-                type: cornerDotType.value
+                type: "dot"
               },
               backgroundOptions: { color: bgClr },
               image: imageSource || undefined,
               imageOptions: imageSource ? {
                 margin: 10,
                 imageSize: parseFloat(logoSize.value) || 0.4,
-                crossOrigin: imageSource.indexOf("http") === 0 ? "anonymous" : undefined,
+                crossOrigin: undefined,
                 hideBackgroundDots: true
               } : undefined
             };
@@ -717,9 +824,16 @@
         }
       });
 
-      dotPattern.addEventListener("change", updateQR);
-      cornerSquareType.addEventListener("change", updateQR);
-      cornerDotType.addEventListener("change", updateQR);
+      document.querySelectorAll(".segment-btn").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          var panel = btn.getAttribute("data-panel");
+          document.querySelectorAll(".segment-btn").forEach(function(b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          document.getElementById("corner-outer-panel").classList.toggle("active", panel === "outer");
+          document.getElementById("corner-inner-panel").classList.toggle("active", panel === "inner");
+        });
+      });
+
       function updateLogoSizeDisplay() {
         logoSizeValue.textContent = Math.round(parseFloat(logoSize.value) * 100) + "%";
       }
@@ -745,19 +859,12 @@
         updateQR();
       });
 
-      logoUrl.addEventListener("input", function() {
-        logoDataUrl = null;
-        logoFile.value = "";
-        updateQR();
-      });
-
       logoFile.addEventListener("change", function(e) {
         var file = e.target.files[0];
         if (!file) return;
         var reader = new FileReader();
         reader.onload = function(ev) {
           logoDataUrl = ev.target.result;
-          logoUrl.value = "";
           updateQR();
         };
         reader.onerror = function() { showToast("Failed to read logo file", true); };
@@ -766,7 +873,6 @@
 
       logoClear.addEventListener("click", function() {
         logoDataUrl = null;
-        logoUrl.value = "";
         logoFile.value = "";
         updateQR();
         showToast("Logo removed");

@@ -1,0 +1,9 @@
+{
+  "name": "custom-qrcode",
+  "version": "1.0.0",
+  "description": "Custom QR code generator with colors, patterns, and logo",
+  "scripts": {
+    "start": "npx --yes serve -l 3000",
+    "dev": "npx --yes serve -l 3000"
+  }
+}
