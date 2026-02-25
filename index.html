@@ -441,6 +441,9 @@
 
     .segment-control button {
       flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 0.5rem 0.75rem;
       border: none;
       background: transparent;
@@ -459,6 +462,13 @@
     .segment-control button.active {
       background: var(--surface-hover);
       color: var(--text);
+    }
+
+    .segment-icon {
+      width: 0.75rem;
+      height: 0.75rem;
+      margin-right: 0.375rem;
+      flex-shrink: 0;
     }
 
     .corner-panel {
@@ -508,8 +518,14 @@
           <summary>Corner Markers & Inner Eyes</summary>
           <div class="collapsible-content">
             <div class="segment-control">
-              <button type="button" class="segment-btn active" data-panel="outer">Outer markers</button>
-              <button type="button" class="segment-btn" data-panel="inner">Inner eyes</button>
+              <button type="button" class="segment-btn active" data-panel="outer">
+                <svg class="segment-icon" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                Outer markers
+              </button>
+              <button type="button" class="segment-btn" data-panel="inner">
+                <svg class="segment-icon" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1" width="10" height="10" fill="currentColor"/></svg>
+                Inner eyes
+              </button>
             </div>
 
             <div id="corner-outer-panel" class="corner-panel active">
@@ -697,6 +713,25 @@
         });
       }
 
+      function recolorLogoAreaOnCanvas(canvas, dotClr) {
+        if (!logoDataUrl) return;
+        var size = 300;
+        var logoSizeVal = parseFloat(logoSize.value) || 0.4;
+        var maxDim = Math.round(size * logoSizeVal);
+        var logoImg = new Image();
+        logoImg.onload = function() {
+          var nw = logoImg.naturalWidth, nh = logoImg.naturalHeight;
+          var scale = maxDim / Math.max(nw, nh);
+          var dw = Math.round(nw * scale), dh = Math.round(nh * scale);
+          var clearX = (size - dw) / 2, clearY = (size - dh) / 2;
+          var ctx = canvas.getContext("2d");
+          ctx.fillStyle = dotClr;
+          ctx.fillRect(clearX, clearY, dw, dh);
+          ctx.drawImage(logoImg, clearX, clearY, dw, dh);
+        };
+        logoImg.src = logoDataUrl;
+      }
+
       function renderWithQrcodejs() {
         var text = urlInput.value.trim() || "https://example.com";
         var dotClr = dotColorHex.value || "#000000";
@@ -732,12 +767,12 @@
               var dw = Math.round(nw * scale), dh = Math.round(nh * scale);
               overlay.style.width = dw + "px";
               overlay.style.height = dh + "px";
-              overlay.style.backgroundColor = bgClr;
+              overlay.style.backgroundColor = dotClr;
               var clearW = dw + margin * 2, clearH = dh + margin * 2;
               var clearX = (300 - clearW) / 2, clearY = (300 - clearH) / 2;
               if (canvas) {
                 var ctx = canvas.getContext("2d");
-                ctx.fillStyle = bgClr;
+                ctx.fillStyle = dotClr;
                 ctx.fillRect(clearX, clearY, clearW, clearH);
                 if (img) img.src = canvas.toDataURL("image/png");
               }
@@ -793,7 +828,10 @@
               qrInstance.append(qrPreview);
             }
             var styledCanvas = qrPreview.querySelector("canvas");
-            if (styledCanvas) recolorCornersOnCanvas(styledCanvas);
+            if (styledCanvas) {
+              recolorCornersOnCanvas(styledCanvas);
+              if (imageSource) recolorLogoAreaOnCanvas(styledCanvas, dotClr);
+            }
           } catch (err) {
             useStyled = false;
             qrInstance = null;
@@ -937,7 +975,7 @@
             var clearW = dw + margin * 2, clearH = dh + margin * 2;
             var clearX = (300 - clearW) / 2, clearY = (300 - clearH) / 2;
             var ox = (300 - dw) / 2, oy = (300 - dh) / 2;
-            ctx.fillStyle = bgColorHex.value || "#ffffff";
+            ctx.fillStyle = dotColorHex.value || "#000000";
             ctx.fillRect(clearX, clearY, clearW, clearH);
             ctx.drawImage(logoImg, ox, oy, dw, dh);
             var a = document.createElement("a");
